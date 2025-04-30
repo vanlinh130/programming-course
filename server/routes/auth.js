@@ -2,7 +2,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/user.js");
 
 const router = express.Router();
 const JWT_SECRET = "your_jwt_secret"; // Tốt hơn là dùng biến môi trường
