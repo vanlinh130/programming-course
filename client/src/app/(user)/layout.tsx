@@ -1,3 +1,4 @@
+import AnnouncementBar from "@/components/announcementBar";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 
@@ -9,6 +10,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen flex justify-center">
       <div className="w-full pb-[80px]">
+        <AnnouncementBar />
         <Header />
         {children}
         <Footer />
