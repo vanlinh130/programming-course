@@ -6,9 +6,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+interface User {
+  name: string;
+}
+
 export default function GoogleLoginButton() {
-  const [user, setUser] = useState<any>(null);
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
   const yourClientId = "513098699265-81nqgsinqbt94uk4k13qe0hlno3u7f94.apps.googleusercontent.com"
 
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
@@ -42,6 +46,7 @@ export default function GoogleLoginButton() {
   return (
     <GoogleOAuthProvider clientId={yourClientId}>
       <form className="space-y-4">
+          {user && <div>Xin chào, {user.name}</div>}
           <GoogleLogin
             onSuccess={handleLoginSuccess}
             onError={() => console.log("Login Failed")}

@@ -12,10 +12,15 @@ import { googleLogout } from "@react-oauth/google";
 import axios from "axios";
 import { toast } from 'react-toastify';
 
+
+interface User {
+  name: string;
+}
+
 const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const navItemsPc = [
     { href: "/khoa-hoc", label: "Khóa Học" },
