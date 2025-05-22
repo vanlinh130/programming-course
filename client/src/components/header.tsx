@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
-import {
-  FacebookIcon,
-  YouTubeIcon,
-} from "./icons/svgIcons";
+import React, { useEffect, useState } from "react";
+import { FacebookIcon, YouTubeIcon } from "./icons/svgIcons";
 
 import { HiBars2 } from "react-icons/hi2";
 import { MdOutlineHighlightOff } from "react-icons/md";
 import ToggleTheme from "./toggleTheme";
+import { googleLogout } from "@react-oauth/google";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   const navItemsPc = [
     { href: "/khoa-hoc", label: "Khóa Học" },
@@ -31,7 +32,27 @@ const Header = () => {
     { href: "/about", label: "About" },
   ];
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
+   const handleLogout = async () => {
+    try {
+      googleLogout();
+  
+      localStorage.removeItem("user");
+      setUser(null);
+  
+      await axios.post("http://localhost:4000/api/auth/logout");
+  
+      toast.success("Đã đăng xuất thành công!");
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
 
   return (
     <header className="h-[56px] sticky top-0 right-0 left-0 z-[1000] border-b-[1px] border-[#e7ebf0] bg-white/80 dark:bg-[#0A1929] backdrop-blur-[20px]">
@@ -39,7 +60,10 @@ const Header = () => {
         <nav className="flex items-center justify-between">
           <div className="w-[40%] md:w-[75%] flex items-center">
             <div className="w-[100%] md:w-[20%] flex items-center justify-center">
-              <Link href="/" className="text-2xl font-bold w-full text-[#1A2027] dark:text-[#fff]">
+              <Link
+                href="/"
+                className="text-2xl font-bold w-full text-[#1A2027] dark:text-[#fff]"
+              >
                 Dev Linh
               </Link>
             </div>
@@ -89,15 +113,28 @@ const Header = () => {
                   <ToggleTheme />
                 </Link>
               </li>
+
               <li className="cursor-pointer text-[14px] hidden md:block">
-                <Link
-                  href="/about"
-                  className={`flex items-center py-2 px-2.5 rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
-                    pathname == "/about" ? "bg-[#F3F6F9]" : ""
-                  }`}
-                >
-                  About Me
-                </Link>
+                {user ? (
+                  <Link
+                    href="/"
+                    className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
+                      pathname == "/about" ? "bg-[#F3F6F9]" : ""
+                    }`}
+                    onClick={handleLogout}
+                  >
+                    {user.name}
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
+                      pathname == "/about" ? "bg-[#F3F6F9]" : ""
+                    }`}
+                  >
+                    Đăng Nhập
+                  </Link>
+                )}
               </li>
             </ul>
 

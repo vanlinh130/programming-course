@@ -32,4 +32,22 @@ const googleLogin = async (req, res) => {
   }
 };
 
-module.exports = { googleLogin };
+// POST login with Google
+const googleLogout = async (req, res) => {
+  try {
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Failed to destroy session' });
+        }
+        return res.status(200).json({ message: 'Logout successful' });
+      });
+    } else {
+      return res.status(200).json({ message: 'Logout successful' });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Logout failed', error: error.message });
+  }
+};
+
+module.exports = { googleLogin, googleLogout };
