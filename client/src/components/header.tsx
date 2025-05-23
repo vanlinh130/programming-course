@@ -10,7 +10,8 @@ import { MdOutlineHighlightOff } from "react-icons/md";
 import ToggleTheme from "./toggleTheme";
 import { googleLogout } from "@react-oauth/google";
 import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import http from "@/lib/https";
 
 
 interface User {
@@ -34,7 +35,6 @@ const Header = () => {
     { href: "/review", label: "Review" },
     { href: "/tu-van", label: "Câu Hỏi Thường Gặp" },
     { href: "/donate", label: "Donate" },
-    { href: "/about", label: "About" },
   ];
 
   useEffect(() => {
@@ -44,23 +44,50 @@ const Header = () => {
     }
   }, []);
 
-   const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       googleLogout();
-  
+
       localStorage.removeItem("user");
       setUser(null);
-  
-      await axios.post("http://localhost:4000/api/auth/logout");
-  
+
+      await http.post("/api/auth/logout", {});
+
       toast.success("Đã đăng xuất thành công!");
     } catch (err) {
       console.error("Logout error:", err);
     }
   };
 
+  const handleAuth = ({ styleMobi = '' } = {}) => {
+    return (
+      <li className={`cursor-pointer text-[14px] ${ styleMobi }`}>
+        {user ? (
+          <Link
+            href="/"
+            className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
+              pathname == "/about" ? "bg-[#F3F6F9]" : ""
+            }`}
+            onClick={handleLogout}
+          >
+            {user.name}
+          </Link>
+        ) : (
+          <Link
+            href="/login"
+            className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
+              pathname == "/about" ? "bg-[#F3F6F9]" : ""
+            }`}
+          >
+            Đăng Nhập
+          </Link>
+        )}
+      </li>
+    );
+  };
+
   return (
-    <header className="h-[56px] sticky top-0 right-0 left-0 z-[1000] border-b-[1px] border-[#e7ebf0] bg-white/80 dark:bg-[#0A1929] backdrop-blur-[20px]">
+    <header className="h-[56px] sticky top-0 right-0 left-0 z-[1000] border-b-[1px] border-[#e7ebf0] dark:border-[#132F4C] bg-white/80 dark:bg-[#0A1929] backdrop-blur-[20px]">
       <div className="max-w-[1200px] px-[20px] md:px-[30px] mx-auto">
         <nav className="flex items-center justify-between">
           <div className="w-[40%] md:w-[75%] flex items-center">
@@ -97,7 +124,7 @@ const Header = () => {
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C] rounded-[10px] hover:bg-white"
                 >
                   <YouTubeIcon />
                 </Link>
@@ -105,7 +132,7 @@ const Header = () => {
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-white"
                 >
                   <FacebookIcon />
                 </Link>
@@ -113,34 +140,12 @@ const Header = () => {
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-white"
                 >
                   <ToggleTheme />
                 </Link>
               </li>
-
-              <li className="cursor-pointer text-[14px] hidden md:block">
-                {user ? (
-                  <Link
-                    href="/"
-                    className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
-                      pathname == "/about" ? "bg-[#F3F6F9]" : ""
-                    }`}
-                    onClick={handleLogout}
-                  >
-                    {user.name}
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
-                      pathname == "/about" ? "bg-[#F3F6F9]" : ""
-                    }`}
-                  >
-                    Đăng Nhập
-                  </Link>
-                )}
-              </li>
+              {handleAuth({styleMobi: 'hidden md:flex'})}
             </ul>
 
             {/* Mobile menu toggle */}
@@ -180,6 +185,7 @@ const Header = () => {
                     </li>
                   );
                 })}
+                {handleAuth({styleMobi: ''})}
               </ul>
             </div>
           </div>

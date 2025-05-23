@@ -1,7 +1,12 @@
+import { BannerMain, OurFacts, Roadmap, Services } from "./components/home";
+
 export default function Home() {
   return (
-    <main className="h-[10000000] bg-[#001e3c]">
-      Home
+    <main className="">
+      <BannerMain />
+      <Services />
+      <OurFacts />
+      <Roadmap/>
     </main>
   );
 }
