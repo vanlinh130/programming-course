@@ -9,10 +9,8 @@ import { HiBars2 } from "react-icons/hi2";
 import { MdOutlineHighlightOff } from "react-icons/md";
 import ToggleTheme from "./toggleTheme";
 import { googleLogout } from "@react-oauth/google";
-import axios from "axios";
 import { toast } from "react-toastify";
-import http from "@/lib/https";
-
+import axios from "axios";
 
 interface User {
   name: string;
@@ -51,7 +49,7 @@ const Header = () => {
       localStorage.removeItem("user");
       setUser(null);
 
-      await http.post("/api/auth/logout", {});
+      await axios.post("http://localhost:4000/api/auth/logout");
 
       toast.success("Đã đăng xuất thành công!");
     } catch (err) {

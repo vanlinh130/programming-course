@@ -28,10 +28,10 @@ const BannerMain = () => {
                 href="https://www.youtube.com/@DevLinh00"
                 className="no-underline text-[#3cf] hover:text-[#fc3]"
               >
-                kênh Youtube "Dev Linh"
+                kênh Youtube &quot;Dev Linh&quot;
               </a>
               , cựu sinh viên CNTT trường đại học Bách Khoa Đà Nẵng, và đang là
-              một "thằng DEV" tại một ngân hàng (nào đó) :D
+              một &quot;thằng DEV&quot; tại một ngân hàng (nào đó) :D
             </p>
             <div className="mt-8">
               <button className="no-underline bg-[#20ad96] rounded-[22px] text-[#fff] inline-block text-[13px] font-medium py-3 px-[30px] uppercase cursor-pointer transition-all duration-300 hover:opacity-90">

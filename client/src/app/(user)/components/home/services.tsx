@@ -27,7 +27,7 @@ const Services = () => {
                   <div className="text-center text-[#F3F6F9]">
                     <h3 className="font-bold my-4">Best Education</h3>
                     <p className="leading-[1.7] text-[13px] my-3">
-                      Thay vì 'thực chiến', tập trung vào THỰC TẾ. Học để có
+                      Thay vì &quot;thực chiến&quot;, tập trung vào THỰC TẾ. Học để có
                       kiến thức đi làm và định hướng sự nghiệp.
                     </p>
                   </div>
@@ -81,8 +81,8 @@ const Services = () => {
                   <div className="text-center text-[#F3F6F9]">
                     <h3 className="font-bold my-4">Best Prices</h3>
                     <p className="leading-[1.7] text-[13px] my-3">
-                      Ưu tiên sinh viên & người chưa đi làm, về 'Kinh tế & Kinh
-                      phí', Dev Linh luôn hỗ trợ.
+                      Ưu tiên sinh viên & người chưa đi làm, về &quot;Kinh tế & Kinh
+                      phí&quot;, Dev Linh luôn hỗ trợ.
                     </p>
                   </div>
                 </div>
