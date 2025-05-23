@@ -1,4 +1,4 @@
-import { BannerMain, OurFacts, Roadmap, Services } from "./components/home";
+import { BannerMain, OurFacts, Outstanding, Roadmap, Services } from "./components/home";
 
 export default function Home() {
   return (
@@ -7,6 +7,7 @@ export default function Home() {
       <Services />
       <OurFacts />
       <Roadmap/>
+      <Outstanding/>
     </main>
   );
 }

@@ -1,16 +1,18 @@
+
 const BannerMain = () => {
+
   return (
     <section className="relative max-w-full overflow-hidden ">
       <video
         autoPlay
         loop
         muted
+        playsInline
         className="max-w-full min-w-full min-h-[calc(100vh-55px)] max-h-[calc(100vh-55px)] object-cover overflow-auto z-10"
       >
         <source
           src="/videos/course-video.mp4"
           type="video/mp4"
-          media="(min-width: 1024px)"
         />
       </video>
       <div className="absolute bg-[rgba(31,39,43,0.75)] top-0 left-0 bottom-0 right-0 w-full">
