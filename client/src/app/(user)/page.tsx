@@ -1,4 +1,4 @@
-import { BannerMain, OurFacts, Outstanding, Roadmap, Services } from "./components/home";
+import { BannerMain, OurFacts, Outstanding, Roadmap, Services, StudentFeedback } from "./components/home";
 
 export default function Home() {
   return (
@@ -8,6 +8,7 @@ export default function Home() {
       <OurFacts />
       <Roadmap/>
       <Outstanding/>
+      <StudentFeedback />
     </main>
   );
 }

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "React Pro Max với Next.JS - Làm Chủ React.JS Hiện Đại",
+    "tag": "ReactJS",
+    "description": "Gánh Team React Client/Server với Vite và Framework Next.JS (Typescript)",
+    "short": "Next.JS là một framework tích hợp sẵn thư viện React để code giao diện UI một cách hiệu quả.",
+    "image": "/images/courses/course-next.webp",
+    "students": 852,
+    "likes": "99% (166)",
+    "price": 399000,
+    "originalPrice": 499000
+  },
+  {
+    "id": 2,
+    "title": "Nest.JS Zero - Xây Dựng Backend Node.JS Chuyên Nghiệp",
+    "tag": "NodeJS",
+    "description": "Làm Backend Node.JS Chuyên Nghiệp với Framework Nest.JS",
+    "short": "Tạo Server Backend Restful API Professional với Framework Nest.JS (TypeScript)",
+    "image": "/images/courses/course-node.webp",
+    "students": 940,
+    "likes": "99% (211)",
+    "price": 299000,
+    "originalPrice": 399000
+  },
+  {
+    "id": 3,
+    "title": "Java Spring MVC - Xây Dựng FullStack Website với Spring Boot",
+    "tag": "Java",
+    "description": "Học Spring MVC Chưa Từng Dễ Tới Vậy",
+    "short": "Tạo website hoàn chỉnh bằng Java Spring và mô hình MVC",
+    "image": "/images/courses/course-java.webp",
+    "students": 888,
+    "likes": " 99% (220)",
+    "price": 299000,
+    "originalPrice": 399000
+  }
+]
