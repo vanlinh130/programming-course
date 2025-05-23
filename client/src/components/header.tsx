@@ -63,9 +63,7 @@ const Header = () => {
         {user ? (
           <Link
             href="/"
-            className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
-              pathname == "/about" ? "bg-[#F3F6F9]" : ""
-            }`}
+             className="flex items-center py-2 px-2.5 uppercase rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C]"
             onClick={handleLogout}
           >
             {user.name}
@@ -73,9 +71,7 @@ const Header = () => {
         ) : (
           <Link
             href="/login"
-            className={`flex items-center py-2 px-2.5 uppercase rounded-[10px] h-[34px] font-bold text-[14px] text-[#1A2027] dark:text-[#fff] hover:bg-[#F3F6F9] ${
-              pathname == "/about" ? "bg-[#F3F6F9]" : ""
-            }`}
+            className="flex items-center py-2 px-2.5 uppercase rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C]"
           >
             Đăng Nhập
           </Link>
@@ -106,8 +102,8 @@ const Header = () => {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`py-2 px-2.5 rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px]  hover:bg-[#F3F6F9] ${
-                        isActive ? "bg-[#F3F6F9]" : ""
+                      className={`py-2 px-2.5 rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C] ${
+                        isActive ? "bg-[#F3F6F9] dark:bg-[#132F4C] text-[#3E5060]" : ""
                       }`}
                     >
                       {item.label}
@@ -122,23 +118,23 @@ const Header = () => {
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C] rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C] rounded-[10px] hover:bg-[#E7EBF0]/50"
                 >
-                  <YouTubeIcon />
+                  <YouTubeIcon classNames="w-[24px] h-[24px] fill-[#d32f2f]"/>
                 </Link>
               </li>
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-[#E7EBF0]/20"
                 >
-                  <FacebookIcon />
+                  <FacebookIcon classNames="w-[24px] h-[24px] fill-[#1976d2]"/>
                 </Link>
               </li>
               <li className="cursor-pointer text-[14px]">
                 <Link
                   href=""
-                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-white"
+                  className="w-[34px] h-[34px] flex items-center justify-center border-[1px] border-solid border-[#E0E3E7] dark:border-[#132F4C]  rounded-[10px] hover:bg-[#E7EBF0]/20"
                 >
                   <ToggleTheme />
                 </Link>

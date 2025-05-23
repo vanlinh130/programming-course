@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen flex justify-center">
-      <div className="w-full pb-[80px]">
+      <div className="w-full">
         <AnnouncementBar />
         <Header />
         {children}
