@@ -8,7 +8,7 @@ export default function Home() {
       <OurFacts />
       <Roadmap/>
       <Outstanding/>
-      <StudentFeedback />
+      <StudentFeedback showReview={true}/>
     </main>
   );
 }

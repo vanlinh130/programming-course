@@ -3,7 +3,11 @@ import Link from "next/link";
 import React from "react";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 
-const StudentFeedback = () => {
+interface ReviewLinkProps {
+  showReview: boolean;
+}
+
+const StudentFeedback = ({ showReview }: ReviewLinkProps) => {
   const feedbacks = [
     { id: 1, image: "/images/feedback/feedback1.webp", alt: "html" },
     { id: 2, image: "/images/feedback/feedback1.webp", alt: "html" },
@@ -47,17 +51,21 @@ const StudentFeedback = () => {
           </div>
         ))}
       </div>
-      <div className="flex mt-[15px] items-center w-full max-w-full">
+      {
+        showReview && (
+        <div className="flex mt-[15px] items-center w-full max-w-full">
           <div className="flex-grow border-t border-[#E7EBF0] dark:border-[#c2e0ff14]"></div>
           <Link href="/review" className="px-[10px]">
             <button className="inline-flex items-center justify-center bg-transparent font-bold text-[14px] text-[#007FFF] dark:text-[#3399FF] py-[6px] px-[8px] leading-[1.75] no-underline outline-none rounded-[10px] shadow-none cursor-pointer transition-all duration-300 hover:bg-[#007fff0a]">
               <FaAngleDoubleRight className="mr-[8px]" />
-              <span>  Xem Tất Cả Review/Đánh Giá  </span>
+              <span> Xem Tất Cả Review/Đánh Giá </span>
               <FaAngleDoubleLeft className="ml-[8px]" />
             </button>
           </Link>
           <div className="flex-grow border-t border-[#E7EBF0] dark:border-[#c2e0ff14]"></div>
         </div>
+        )
+      }
     </section>
   );
 };
