@@ -1,12 +1,5 @@
 import Button from "@/components/ui/button";
-
-const AskQuestionButton = ({ AskQuestion }: { AskQuestion: string }) => {
-  return (
-    <div className="max-w-full h-[24px] inline-flex items-center justify-center rounded-[16px] text-[#0059B2] cursor-pointer font-medium bg-[rgba(194,224,255,0.5)] hover:bg-[#C2E0FF]">
-      <span className="px-2">{AskQuestion}</span>
-    </div>
-  );
-};
+import ButtonQuestion from "../components/buttonQuestion";
 
 export default function Page() {
   return (
@@ -21,11 +14,11 @@ export default function Page() {
             loại theo các chủ đề sau:
           </h4>
           <div className=" flex flex-wrap gap-4 mt-[20px]">
-            <AskQuestionButton AskQuestion="Câu hỏi chung" />
-            <AskQuestionButton AskQuestion="Sinh viên IT và non-IT (18 <= age <=23)" />
-            <AskQuestionButton AskQuestion="Trái ngành & đã đi làm (age > 23)" />
-            <AskQuestionButton AskQuestion="Đúng ngành & đã đi làm (age > 23)" />
-            <AskQuestionButton AskQuestion="Học sinh (age < 18)" />
+            <ButtonQuestion text="Câu hỏi chung" className='h-[24px]'/>
+            <ButtonQuestion text="Sinh viên IT và non-IT (18 <= age <=23)" className='h-[24px]'/>
+            <ButtonQuestion text="Trái ngành & đã đi làm (age > 23)" className='h-[24px]'/>
+            <ButtonQuestion text="Đúng ngành & đã đi làm (age > 23)" className='h-[24px]'/>
+            <ButtonQuestion text="Học sinh (age < 18)" className='h-[24px]'/>
           </div>
         </div>
         <div className="">
