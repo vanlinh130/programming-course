@@ -11,6 +11,7 @@ import React from "react";
 import { GoArrowRight } from "react-icons/go";
 import data from "@/data/data.json";
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from "react-icons/fa";
+import CommonConstants from "@/constants/common";
 
 const Outstanding = () => {
   return (
@@ -132,7 +133,7 @@ const Outstanding = () => {
         </div>
         <div className="flex mt-[15px] items-center w-full max-w-full">
           <div className="flex-grow border-t border-[#E7EBF0] dark:border-[#c2e0ff14]"></div>
-          <Link href="/khoa-hoc" className="px-[10px]">
+          <Link href={CommonConstants.KHOA_HOC_PATH} className="px-[10px]">
             <button className="inline-flex items-center justify-center bg-transparent font-bold text-[14px] text-[#007FFF] dark:text-[#3399FF] py-[6px] px-[8px] leading-[1.75] no-underline outline-none rounded-[10px] shadow-none cursor-pointer transition-all duration-300 hover:bg-[#007fff0a]">
               <FaAngleDoubleRight className="mr-[8px]" />
               <span>Xem Tất Cả Khóa Học </span>

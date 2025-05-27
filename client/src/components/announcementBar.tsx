@@ -7,9 +7,9 @@ const AnnouncementBar = () => {
   const [visible, setVisible] = useState(true);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  // Set thời gian đếm ngược 24 giờ
+  // Set thời gian đếm ngược 10 giờ
   useEffect(() => {
-    const targetTime = Date.now() + 24 * 60 * 60 * 1000;
+    const targetTime = Date.now() + 10 * 60 * 60 * 1000;
     const interval = setInterval(() => {
       const diff = targetTime - Date.now();
       setTimeLeft(diff > 0 ? diff : 0);

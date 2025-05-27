@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { FacebookIcon, TiktokIcon, UdemyIcon, YouTubeIcon } from "./icons/svgIcons";
+import CommonConstants from "@/constants/common";
 
 const Footer = () => {
   const footerLinks = [
@@ -74,7 +75,7 @@ const Footer = () => {
         <hr className="border-t-[1px] border-t-[#E0E3E7] dark:border-t-[#132F4C]" />
         <div className="my-[30px] flex items-center justify-between">
           <Link
-            href="/"
+            href={CommonConstants.HOME_PATH}
             className="text-2xl font-bold w-full text-[#1A2027] dark:text-[#fff]"
           >
             Dev Linh

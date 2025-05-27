@@ -1,16 +1,16 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface User {
   name: string;
 }
 
-export default function GoogleLoginButton() {
+const LoginForm = () => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const yourClientId = "513098699265-81nqgsinqbt94uk4k13qe0hlno3u7f94.apps.googleusercontent.com"
@@ -55,3 +55,5 @@ export default function GoogleLoginButton() {
     </GoogleOAuthProvider>
   );
 }
+
+export default LoginForm;

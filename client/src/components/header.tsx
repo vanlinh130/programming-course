@@ -11,6 +11,7 @@ import ToggleTheme from "./toggleTheme";
 import { googleLogout } from "@react-oauth/google";
 import { toast } from "react-toastify";
 import axios from "axios";
+import CommonConstants from "@/constants/common";
 
 interface User {
   name: string;
@@ -22,17 +23,17 @@ const Header = () => {
   const [user, setUser] = useState<User | null>(null);
 
   const navItemsPc = [
-    { href: "/khoa-hoc", label: "Khóa Học" },
-    { href: "/review", label: "Review" },
-    { href: "/tu-van", label: "Tư Vấn" },
-    { href: "/donate", label: "Donate" },
+    { href: CommonConstants.KHOA_HOC_PATH, label: "Khóa Học" },
+    { href: CommonConstants.REVIEW_PATH, label: "Review" },
+    { href: CommonConstants.TU_VAN_PATH, label: "Tư Vấn" },
+    { href: CommonConstants.DONATE_PATH, label: "Donate" },
   ];
 
   const navItemsMobile = [
-    { href: "/khoa-hoc", label: "Khóa Học" },
-    { href: "/review", label: "Review" },
-    { href: "/tu-van", label: "Câu Hỏi Thường Gặp" },
-    { href: "/donate", label: "Donate" },
+    { href: CommonConstants.KHOA_HOC_PATH, label: "Khóa Học" },
+    { href: CommonConstants.REVIEW_PATH, label: "Review" },
+    { href: CommonConstants.TU_VAN_PATH, label: "Câu Hỏi Thường Gặp" },
+    { href: CommonConstants.DONATE_PATH, label: "Donate" },
   ];
 
   useEffect(() => {
@@ -61,16 +62,15 @@ const Header = () => {
     return (
       <li className={`cursor-pointer text-[14px] ${ styleMobi }`}>
         {user ? (
-          <Link
-            href="/"
-             className="flex items-center py-2 px-2.5 uppercase rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C]"
+          <div
+            className="flex items-center py-2 px-2.5 uppercase rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C]"
             onClick={handleLogout}
           >
             {user.name}
-          </Link>
+          </div>
         ) : (
           <Link
-            href="/login"
+            href={CommonConstants.LOGIN_PATH}
             className="flex items-center py-2 px-2.5 uppercase rounded-[10px] text-[#1A2027] dark:text-[#fff] font-bold text-[14px] hover:bg-[#F3F6F9] dark:hover:bg-[#132F4C]"
           >
             Đăng Nhập
@@ -87,7 +87,7 @@ const Header = () => {
           <div className="w-[40%] md:w-[75%] flex items-center">
             <div className="w-[100%] md:w-[20%] flex items-center justify-center">
               <Link
-                href="/"
+                href={CommonConstants.HOME_PATH}
                 className="text-2xl font-bold w-full text-[#1A2027] dark:text-[#fff]"
               >
                 Dev Linh

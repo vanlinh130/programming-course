@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import CommonConstants from './constants/common';
 
 // Giả lập role (1: user, 2: user, 3: admin)
 function getUserRole(): number {
@@ -19,7 +20,7 @@ export function middleware(req: NextRequest) {
     if (role === 3) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL('/not-found', req.url));
+      return NextResponse.redirect(new URL(CommonConstants.NOT_FOUND_PATH, req.url));
     }
   }
 
@@ -28,7 +29,7 @@ export function middleware(req: NextRequest) {
     if (role === 1 || role === 2) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL('/not-found', req.url));
+      return NextResponse.redirect(new URL(CommonConstants.NOT_FOUND_PATH, req.url));
     }
   }
 
