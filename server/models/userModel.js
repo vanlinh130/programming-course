@@ -16,11 +16,26 @@ const createUser = async (user) => {
   return res.rows[0];
 };
 
-// Get all users
 const getAllUsers = async () => {
-  const result = await pool.query('SELECT * FROM users ORDER BY id DESC');
+  const result = await pool.query(`
+    SELECT 
+      u.*,
+      COALESCE(json_agg(
+        json_build_object(
+          'course_id', uc.course_id,
+          'is_approved', uc.is_approved,
+          'granted_at', uc.granted_at
+        )
+      ) FILTER (WHERE uc.course_id IS NOT NULL), '[]') AS courses
+    FROM users u
+    LEFT JOIN user_courses uc ON uc.user_id = u.id
+    GROUP BY u.id
+    ORDER BY u.id DESC
+  `);
+
   return result.rows;
 };
+
 
 // Update user by google_id
 const updateUserByGoogleId = async (googleId, user) => {
