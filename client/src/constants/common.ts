@@ -8,8 +8,8 @@ const CommonConstants = {
   NOT_FOUND_PATH: "/not-found",
 
   // API Paths
-  API_APP_LOGIN_PATH: "/api/app/google-login",
-  API_APP_LOGOUT_PATH: "/api/app/logout",
+  API_APP_LOGIN_PATH: "/api/auth/google-login",
+  API_APP_LOGOUT_PATH: "/api/auth/logout",
   API_USERS_PATH: "/api/users",
   API_USERS_GOOGLE_ID_PATH: "/api/users/:google_id",
   API_UPDATE_USERS_PATH: "/api/users/:google_id",

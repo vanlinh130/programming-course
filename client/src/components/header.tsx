@@ -1,17 +1,17 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FacebookIcon, YouTubeIcon } from "./icons/svgIcons";
+import { usePathname } from "next/navigation";
+import { googleLogout } from "@react-oauth/google";
+import { useLogoutMutation } from "@/queries/useAuth";
+import { toast } from "react-toastify";
+import Link from "next/link";
 
 import { HiBars2 } from "react-icons/hi2";
 import { MdOutlineHighlightOff } from "react-icons/md";
-import ToggleTheme from "./toggleTheme";
-import { googleLogout } from "@react-oauth/google";
-import { toast } from "react-toastify";
-import axios from "axios";
 import CommonConstants from "@/constants/common";
+import ToggleTheme from "./toggleTheme";
+import { FacebookIcon, YouTubeIcon } from "./icons/svgIcons";
 
 interface User {
   name: string;
@@ -21,6 +21,7 @@ const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const logoutMutation = useLogoutMutation();
 
   const navItemsPc = [
     { href: CommonConstants.KHOA_HOC_PATH, label: "Khóa Học" },
@@ -46,12 +47,9 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       googleLogout();
-
       localStorage.removeItem("user");
       setUser(null);
-
-      await axios.post("http://localhost:4000/api/auth/logout");
-
+      await logoutMutation.mutateAsync();
       toast.success("Đã đăng xuất thành công!");
     } catch (err) {
       console.error("Logout error:", err);

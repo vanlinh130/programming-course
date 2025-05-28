@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer, Zoom } from "react-toastify";
+import AppProvider from "@/components/app-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Dev Linh - Software Engineer",
-  description: "Từ những dòng code đầu tiên đến những dự án thực tế. Tôi là Lê Văn Linh, người biến thử thách thành sản phẩm và đam mê thành sự nghiệp.",
+  description:
+    "Từ những dòng code đầu tiên đến những dự án thực tế. Tôi là Lê Văn Linh, người biến thử thách thành sản phẩm và đam mê thành sự nghiệp.",
 };
 
 export default function RootLayout({
@@ -28,19 +30,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#fff] dark:bg-[#001e3c]`}
       >
-        {children}
-        <ToastContainer
-          position="top-right"
-          transition={Zoom}
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <AppProvider>
+          {children}
+          <ToastContainer
+            position="top-right"
+            transition={Zoom}
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </AppProvider>
       </body>
     </html>
   );
