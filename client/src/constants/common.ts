@@ -1,6 +1,7 @@
 const CommonConstants = {
   HOME_PATH: "/",
   KHOA_HOC_PATH: "/khoa-hoc",
+  SHOW_KHOA_HOC_PATH: '/khoa-hoc/:id',
   REVIEW_PATH: "/review",
   TU_VAN_PATH: "/tu-van",
   DONATE_PATH: "/donate",

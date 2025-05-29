@@ -31,8 +31,7 @@ const getByValue = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const { name, value } = req.body;
-    const category = await updateCategory(req.params.id, name, value);
+    const category = await updateCategory(req.params.id, req.body);
     res.json(category);
   } catch (err) {
     res.status(500).json({ error: err.message });

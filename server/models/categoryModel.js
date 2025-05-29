@@ -1,9 +1,9 @@
 const pool = require('../config/db');
 
-const createCategory = async (name, value) => {
+const createCategory = async (name, value, title) => {
   const result = await pool.query(
-    'INSERT INTO categories (name, value) VALUES ($1, $2) RETURNING *',
-    [name, value]
+    'INSERT INTO categories (name, value, title) VALUES ($1, $2, $3) RETURNING *',
+    [name, value, title]
   );
   return result.rows[0];
 };
@@ -48,11 +48,21 @@ const getCategoryByValue = async (value) => {
   return category;
 };
 
-const updateCategory = async (id, name, value) => {
-  const result = await pool.query(
-    'UPDATE categories SET name = $1, value = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
-    [name, value, id]
-  );
+const updateCategory = async (id, fields) => {
+  const keys = Object.keys(fields);
+  if (keys.length === 0) return null;
+
+  const setQuery = keys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+  const values = Object.values(fields);
+
+  // Add updated_at timestamp
+  const query = `
+    UPDATE categories 
+    SET ${setQuery}, updated_at = CURRENT_TIMESTAMP 
+    WHERE id = $${values.length + 1} 
+    RETURNING *`;
+
+  const result = await pool.query(query, [...values, id]);
   return result.rows[0];
 };
 
