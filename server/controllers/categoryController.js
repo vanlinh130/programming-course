@@ -1,4 +1,10 @@
-const { createCategory, getAllCategories, getCategoryByValue, updateCategory, deleteCategory } = require("../models/categoryModel");
+const {
+  createCategory,
+  getAllCategories,
+  getCategoryByValue,
+  updateCategory,
+  deleteCategory,
+} = require("../models/categoryModel");
 
 const create = async (req, res) => {
   try {
@@ -22,7 +28,8 @@ const getAll = async (req, res) => {
 const getByValue = async (req, res) => {
   try {
     const category = await getCategoryByValue(req.params.value);
-    if (!category) return res.status(404).json({ message: 'Category not found' });
+    if (!category)
+      return res.status(404).json({ message: "Category not found" });
     res.json(category);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -41,8 +48,9 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const category = await deleteCategory(req.params.id);
-    if (!category) return res.status(404).json({ message: 'Category not found' });
-    res.json({ message: 'Category deleted' });
+    if (!category)
+      return res.status(404).json({ message: "Category not found" });
+    res.json({ message: "Category deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -53,5 +61,5 @@ module.exports = {
   getAll,
   getByValue,
   update,
-  remove
+  remove,
 };

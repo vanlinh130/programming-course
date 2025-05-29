@@ -1,16 +1,10 @@
 import CommonConstants from "@/constants/common";
 import http from "@/lib/https";
-
-type Category = {
-  id: string | number;
-  name: string;
-  value: string;
-  title: string;
-};
+import { ContractResponseType } from "@/schemaValidations/categories.schema";
 
 const categoriesApiRequest = {
     getCategoriesAll:  () => {
-        return http.get<Category[]>(CommonConstants.API_CATEGORIES_PATH)
+        return http.get<ContractResponseType>(CommonConstants.API_CATEGORIES_PATH)
     } 
 }
 

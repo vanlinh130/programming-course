@@ -2,38 +2,13 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { GoArrowRight } from "react-icons/go";
 import { Checkbox } from "@/components/ui/checkbox";
-import Button from "@/components/ui/button";
 import { useCategoriesQuery } from "@/queries/useCategories";
-import ButtonQuestion from "../components/buttonQuestion";
 import CommonConstants from "@/constants/common";
-import { useRouter } from "next/navigation";
-;
-
-type Course = {
-  id: string | number;
-  label: string;
-  image_url: string;
-  tag: string;
-  title: string;
-  description: string;
-  short: string;
-  students: number;
-  likes: number;
-  price: number;
-  original_price: number;
-  // ... các trường khác nếu có
-};
-
-type Category = {
-  id: string | number;
-  name: string;
-  value: string;
-  title: string;
-  courses?: Course[];
-}
+import Button from "@/components/ui/button";
+import ButtonQuestion from "../components/buttonQuestion";
 
 const KhoaHoc = () => {
   const { data: categories } = useCategoriesQuery();
@@ -65,8 +40,8 @@ const KhoaHoc = () => {
       otherRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const linkToDetail = (id: string | number) =>  {
-    router.push(CommonConstants.SHOW_KHOA_HOC_PATH.replace(":id", String(id)));
+  const linkToDetail = (course_number: string | number) =>  {
+    router.push(CommonConstants.SHOW_KHOA_HOC_PATH.replace(":course_number", String(course_number)));
   }
 
   return (
@@ -76,7 +51,7 @@ const KhoaHoc = () => {
           <h3 className="text-[#1A2027] text-[21px] font-bold my-[18px] dark:text-[#fff]">
             Phân loại kỹ năng:
           </h3>
-          {categories?.map((category: Category) => (
+          {categories?.map((category) => (
             <div key={category.id} className="flex items-center">
               <div className="p-[9px]">
                 <Checkbox
@@ -105,8 +80,8 @@ const KhoaHoc = () => {
       <div className="col-span-1 lg:col-span-3">
         <div className="border-[1px] border-solid border-[#e7ebf0] rounded-[3px] p-[15px]">
           {categories
-            ?.filter((category: Category) => checkedItems[category.value])
-            ?.map((category: Category) => {
+            ?.filter((category) => checkedItems[category.value])
+            ?.map((category) => {
               let ref = undefined;
               if (category.value === "frontend") ref = frontendRef;
               if (category.value === "backend") ref = backendRef;
@@ -125,7 +100,7 @@ const KhoaHoc = () => {
                     />
                     <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
                     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-[10px]">
-                      {category.courses?.map((course: Course) => (
+                      {category.courses?.map((course) => (
                         <div key={course.id} className="col-span-1">
                           <div className="bg-[#fff] p-[5px] rounded-[10px] dark:bg-[#3e506033] shadow-[0_2px_10px_0_rgba(0,0,0,0.1)]">
                             <div className="relative">
@@ -154,7 +129,7 @@ const KhoaHoc = () => {
                                   {course.tag}
                                 </span>
                                 <div
-                                  onClick={() => linkToDetail(course.id)}
+                                  onClick={() => linkToDetail(course.course_number)}
                                   className="no-underline hover:underline hover:text-[#007FFF] dark:text-[#F0F7FF] cursor-pointer"
                                 >
                                   {course.title}
@@ -175,13 +150,13 @@ const KhoaHoc = () => {
                                     ₫
                                   </div>
                                 </div>
-                                <Link
-                                  href=""
-                                  className="text-[16px] flex items-center gap-[7px] no-underline hover:underline hover:text-[#007FFF] dark:text-[#F0F7FF]"
+                                <div
+                                  onClick={() => linkToDetail(course.course_number)}
+                                  className="text-[16px] flex items-center gap-[7px] no-underline hover:underline hover:text-[#007FFF] dark:text-[#F0F7FF] cursor-pointer"
                                 >
                                   <GoArrowRight />
                                   <span>Xem chi tiết</span>
-                                </Link>
+                                </div>
                               </div>
                             </div>
                           </div>

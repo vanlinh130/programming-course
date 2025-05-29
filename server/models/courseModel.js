@@ -42,6 +42,17 @@ const getCourseById = async (id) => {
   return course;
 };
 
+const getCourseByNumber = async (course_number) => {
+  const courseResult = await pool.query('SELECT * FROM courses WHERE course_number = $1', [course_number]);
+  const course = courseResult.rows[0];
+  if (!course) return null;
+
+  const lessonResult = await pool.query('SELECT * FROM lessons WHERE course_id = $1', [course.id]);
+  course.lessons = lessonResult.rows;
+
+  return course;
+};
+
 const updateCourse = async (id, fields) => {
   const keys = Object.keys(fields);
   if (keys.length === 0) return null;
@@ -70,6 +81,7 @@ module.exports = {
   createCourse,
   getAllCourses,
   getCourseById,
+  getCourseByNumber,
   updateCourse,
   deleteCourse
 };

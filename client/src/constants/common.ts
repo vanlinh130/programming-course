@@ -1,7 +1,7 @@
 const CommonConstants = {
   HOME_PATH: "/",
   KHOA_HOC_PATH: "/khoa-hoc",
-  SHOW_KHOA_HOC_PATH: '/khoa-hoc/:id',
+  SHOW_KHOA_HOC_PATH: '/khoa-hoc/:course_number',
   REVIEW_PATH: "/review",
   TU_VAN_PATH: "/tu-van",
   DONATE_PATH: "/donate",
@@ -25,6 +25,7 @@ const CommonConstants = {
 
   API_COURSES_PATH: "/api/courses",
   API_CREATE_COURSES_PATH: "/api/courses",
+  API_COURSES_NUMBER_PATH: "/api/courses/course-number/:course_number",
   API_COURSES_ID_PATH: "/api/courses/:id",
   API_UPDATE_COURSES_PATH: "/api/courses/:id",
   API_DELETE_COURSES_PATH: "/api/courses/:id",

@@ -16,3 +16,12 @@ export const useCourseDetailQuery = ( id: string) => {
       enabled: !!id,
   });
 };
+
+export const useCourseNumberDetailQuery = ( course_number: string) => {
+  return useQuery({
+    queryKey: ["courses", course_number],
+    queryFn: () =>
+      coursesApiRequest.getByNumber(course_number),
+      enabled: !!course_number,
+  });
+};

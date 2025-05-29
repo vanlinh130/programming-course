@@ -1,4 +1,9 @@
-const { createUserCourse, approveUserCourse, getApprovedCourses, getAllCoursesOfUser } = require("../models/userCourseModel");
+const {
+  createUserCourse,
+  approveUserCourse,
+  getApprovedCourses,
+  getAllCoursesOfUser,
+} = require("../models/userCourseModel");
 
 // Gán user với course
 const create = async (req, res) => {
@@ -7,7 +12,7 @@ const create = async (req, res) => {
     res.status(201).json(course);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Lỗi tạo user_course' });
+    res.status(500).json({ error: "Lỗi tạo user_course" });
   }
 };
 
@@ -15,11 +20,12 @@ const create = async (req, res) => {
 const approve = async (req, res) => {
   try {
     const course = await approveUserCourse(req.body);
-    if (!course) return res.status(404).json({ message: 'Không tìm thấy bản ghi' });
+    if (!course)
+      return res.status(404).json({ message: "Không tìm thấy bản ghi" });
     res.json(course);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Lỗi duyệt khóa học' });
+    res.status(500).json({ error: "Lỗi duyệt khóa học" });
   }
 };
 
@@ -30,7 +36,7 @@ const getApproved = async (req, res) => {
     res.json(courses);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Lỗi lấy danh sách khóa học đã duyệt' });
+    res.status(500).json({ error: "Lỗi lấy danh sách khóa học đã duyệt" });
   }
 };
 
@@ -41,13 +47,13 @@ const getAll = async (req, res) => {
     res.json(courses);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Lỗi lấy danh sách khóa học' });
+    res.status(500).json({ error: "Lỗi lấy danh sách khóa học" });
   }
 };
 
 module.exports = {
-    create,
-    approve,
-    getApproved,
-    getAll
+  create,
+  approve,
+  getApproved,
+  getAll,
 };
