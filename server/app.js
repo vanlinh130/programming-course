@@ -3,14 +3,15 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
-const allRoutes = require('./routes');
 
 app.use(cors({
-  origin: 'http://localhost:3000', // hoặc '*'
-  credentials: true
+  origin: 'http://localhost:3000', 
+  credentials: true                 
 }));
+
 app.use(express.json());
 
+const allRoutes = require('./routes');
 allRoutes(app)
 
 const PORT = process.env.PORT || 4000;

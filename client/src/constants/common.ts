@@ -8,6 +8,11 @@ const CommonConstants = {
   LOGIN_PATH: "/login",
   NOT_FOUND_PATH: "/not-found",
 
+  LEARN_PATH: '/learn',
+  LEARN_LECTURE_PATH: '/learn/lecture/:course_number',
+
+  ADMIN_PATH: '/admin',
+
   // API Paths
   API_APP_LOGIN_PATH: "/api/auth/google-login",
   API_APP_LOGOUT_PATH: "/api/auth/logout",
@@ -36,6 +41,14 @@ const CommonConstants = {
   API_UPDATE_LESSONS_PATH: "/api/lessons/:id",
   API_DELETE_LESSONS_PATH: "/api/lessons/:id",
 
+  API_CREATE_USER_COURSE_PATH: "/api/user-courses",
+  API_UPDATE_USER_COURSE_PATH: "/api/user-courses/approve",
+  API_USER_COURSE_APPROVE_ID_PATH: "/api/user-courses/:userId",
+  API_USER_COURSE_ALL_ID_PATH: "/api/user-courses/all/:userId",
+
+  COOKIE_ACCESS_TOKEN_NAME: 'accessToken',
+  COOKIE_EXPIRE_AT_NAME: 'expiresAt',
+  COOKIE_USER_INFO_NAME: 'userInfo',
 };
 
 export default CommonConstants;

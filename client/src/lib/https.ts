@@ -20,6 +20,7 @@ async function request<TResponse, TBody = unknown>(
       "Content-Type": "application/json",
       ...(options?.headers || {}),
     },
+    credentials: "include",
     ...options,
     body: body ? JSON.stringify(body) : undefined,
   };

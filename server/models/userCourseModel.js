@@ -23,7 +23,7 @@ const approveUserCourse = async ({ user_id, course_id }) => {
 // Lấy tất cả khóa học đã duyệt của user
 const getApprovedCourses = async (user_id) => {
   const result = await pool.query(
-    `SELECT c.*
+    `SELECT c.*, uc.is_approved
      FROM courses c
      JOIN user_courses uc ON c.id = uc.course_id
      WHERE uc.user_id = $1 AND uc.is_approved = TRUE`,

@@ -1,41 +1,50 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import CommonConstants from './constants/common';
+import { NextRequest, NextResponse } from "next/server";
+import CommonConstants from "./constants/common";
 
-// Giả lập role (1: user, 2: user, 3: admin)
-function getUserRole(): number {
-  return 1; // sửa thành 3 nếu bạn muốn test admin
-}
+export default async function middleware(request: NextRequest) {
+  const accessToken = request.cookies.get(
+    CommonConstants.COOKIE_ACCESS_TOKEN_NAME
+  )?.value;
+  const userInfoRaw = request.cookies.get(
+    CommonConstants.COOKIE_USER_INFO_NAME
+  )?.value;
 
-export function middleware(req: NextRequest) {
-  const role = getUserRole();
-  const pathname = req.nextUrl.pathname;
+  if (!accessToken || !userInfoRaw) {
+    return NextResponse.redirect(new URL(CommonConstants.NOT_FOUND_PATH, request.url));
+  }
 
-  // Định nghĩa các route dành cho admin và user
-  const adminPaths = ['/admin'];
-  const userPaths = ['/donate', '/khoa-hoc', '/review', '/tu-van'];
+  let userInfo;
 
-  // Kiểm tra quyền admin
-  if (adminPaths.some(path => pathname.startsWith(path))) {
-    if (role === 3) {
-      return NextResponse.next();
-    } else {
-      return NextResponse.redirect(new URL(CommonConstants.NOT_FOUND_PATH, req.url));
+  try {
+    userInfo = JSON.parse(userInfoRaw);
+  } catch {
+    console.error("Invalid user info cookie format");
+    return NextResponse.redirect(new URL(CommonConstants.LOGIN_PATH, request.url));
+  }
+
+  const userRole = userInfo.role;
+  const userId = userInfo.id;
+  const pathname = request.nextUrl.pathname;
+
+  // Nếu là user mà truy cập admin -> redirect
+  if (pathname.startsWith(CommonConstants.ADMIN_PATH) && userRole === "user") {
+    return NextResponse.redirect(new URL(CommonConstants.HOME_PATH, request.url));
+  }
+
+  if (pathname.startsWith(CommonConstants.LEARN_PATH) && userRole === "user") {
+    // GIẢ LẬP: danh sách user được duyệt học
+    const approvedUserIds = [3, 4, 5]; // ví dụ userId hợp lệ
+
+    // Nếu userId không nằm trong danh sách được duyệt → chặn
+    if (!approvedUserIds.includes(userId)) {
+      console.log(`User ${userId} is not approved to access learning`);
+      return NextResponse.redirect(new URL(CommonConstants.HOME_PATH, request.url));
     }
   }
 
-  // Kiểm tra quyền user
-  if (userPaths.some(path => pathname.startsWith(path))) {
-    if (role === 1 || role === 2) {
-      return NextResponse.next();
-    } else {
-      return NextResponse.redirect(new URL(CommonConstants.NOT_FOUND_PATH, req.url));
-    }
-  }
-
-  return NextResponse.next(); // Cho phép các route khác
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/donate/:path*', '/khoa-hoc/:path*', '/review/:path*', '/tu-van/:path*'],
+  matcher: ["/admin/:path*", "/auth/:path*", "/learn/:path*", "/user/:path*"],
 };
