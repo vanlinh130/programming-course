@@ -24,31 +24,31 @@ export default function Page() {
         <div className="">
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
           <div className="mb-[15px]">
-            <Button label="Câu hỏi chung" />
+            <Button icon={false} label="Câu hỏi chung" />
           </div>
         </div>
         <div className="">
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
           <div className="mb-[15px]">
-            <Button label="Sinh viên IT và non-IT (18 <= age <=23)" />
+            <Button icon={false} label="Sinh viên IT và non-IT (18 <= age <=23)" />
           </div>
         </div>
         <div className="">
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
           <div className="mb-[15px]">
-            <Button label="Trái ngành & đã đi làm (age > 23)" />
+            <Button icon={false} label="Trái ngành & đã đi làm (age > 23)" />
           </div>
         </div>
         <div className="">
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
           <div className="mb-[15px]">
-            <Button label="Đúng ngành & đã đi làm (age > 23)" />
+            <Button icon={false} label="Đúng ngành & đã đi làm (age > 23)" />
           </div>
         </div>
         <div className="">
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
           <div className="mb-[15px]">
-            <Button label="Học sinh (age < 18)" />
+            <Button icon={false} label="Học sinh (age < 18)" />
           </div>
         </div>
       </section>

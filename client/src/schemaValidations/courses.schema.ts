@@ -13,6 +13,7 @@ export const CourseSchema = z.object({
   price: z.number(),
   original_price: z.number(),
   course_number: z.string(),
+  lessons:z.array(z.any()),
 });
 
 export const CoursesResponseSchema = z.array(CourseSchema);

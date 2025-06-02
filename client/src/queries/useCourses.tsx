@@ -17,11 +17,15 @@ export const useCourseDetailQuery = ( id: string) => {
   });
 };
 
-export const useCourseNumberDetailQuery = ( course_number: string) => {
+export const useCourseByNumberQuery = (course_number: string) => {
   return useQuery({
     queryKey: ["courses", course_number],
-    queryFn: () =>
-      coursesApiRequest.getByNumber(course_number),
-      enabled: !!course_number,
+    queryFn: () => coursesApiRequest.getByNumber(course_number),
+    enabled: !!course_number,
   });
 };
+
+
+// export async function useCourseByNumberQuery(course_number: string) {
+//   return await coursesApiRequest.getByNumber(course_number);
+// }

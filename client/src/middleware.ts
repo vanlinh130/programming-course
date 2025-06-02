@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import CommonConstants from "./constants/common";
+import envConfig from "./config";
 
 export default async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get(
@@ -31,13 +32,18 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(CommonConstants.HOME_PATH, request.url));
   }
 
+  // Nếu là user mà truy cập vào learn khóa học, thì cần approved == true
   if (pathname.startsWith(CommonConstants.LEARN_PATH) && userRole === "user") {
-    // GIẢ LẬP: danh sách user được duyệt học
-    const approvedUserIds = [3, 4, 5]; // ví dụ userId hợp lệ
+    try {
+      const apiRes = await fetch(`${envConfig.NEXT_PUBLIC_API_URL}/api/user-courses/approved/${userId}`, { cache: "no-store" });
+      const approvedCourses = await apiRes.json()      
 
-    // Nếu userId không nằm trong danh sách được duyệt → chặn
-    if (!approvedUserIds.includes(userId)) {
-      console.log(`User ${userId} is not approved to access learning`);
+      if (!Array.isArray(approvedCourses) || approvedCourses.length === 0) {
+        console.log(`User ${userId} is not approved to access learning`);
+        return NextResponse.redirect(new URL(CommonConstants.HOME_PATH, request.url));
+      }
+    } catch (err) {
+      console.error("Error checking approved courses", err);
       return NextResponse.redirect(new URL(CommonConstants.HOME_PATH, request.url));
     }
   }

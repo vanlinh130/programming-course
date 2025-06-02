@@ -1,4 +1,4 @@
-import KhoaHoc from "./khoa-hoc";
+import KhoaHoc from "./courses";
 
 export default function Page() {
   return (

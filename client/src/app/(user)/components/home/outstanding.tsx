@@ -4,8 +4,6 @@ import {
   CallMadeIcon,
   LikeIcon,
   PeopleStudentIcon,
-  ShoppingCartIcon,
-  StarIcon,
 } from "@/components/icons/svgIcons";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +13,8 @@ import { FaAngleDoubleRight, FaAngleDoubleLeft } from "react-icons/fa";
 import CommonConstants from "@/constants/common";
 import { useCoursesQuery } from "@/queries/useCourses";
 import { useRouter } from "next/navigation";
+import { GoStarFill } from "react-icons/go";
+import { MdShoppingCart } from "react-icons/md";
 
 const Outstanding = () => {
   const { data, isLoading } = useCoursesQuery();
@@ -119,11 +119,11 @@ const Outstanding = () => {
                           </div>
                         </div>
                         <div className="flex flex-row gap-1">
-                          <StarIcon />
-                          <StarIcon />
-                          <StarIcon />
-                          <StarIcon />
-                          <StarIcon />
+                          <GoStarFill className="text-[#faaf00] text-[15px]"/>
+                          <GoStarFill className="text-[#faaf00] text-[15px]"/>
+                          <GoStarFill className="text-[#faaf00] text-[15px]"/>
+                          <GoStarFill className="text-[#faaf00] text-[15px]"/>
+                          <GoStarFill className="text-[#faaf00] text-[15px]"/>
                         </div>
                         <div className="my-2.5 flex gap-8 items-center">
                           <span className="text-[20px] dark:text-[#F0F7FF]">
@@ -137,7 +137,7 @@ const Outstanding = () => {
                         <div className="my-[14px]">
                           <button className="relative min-w-[64px] inline-flex items-center justify-center bg-[#007FFF] font-bold text-[14px] text-[#fff] py-[6px] px-[16px] leading-[1.75] no-underline outline-none rounded-[10px] border-none shadow-none cursor-pointer transition-all duration-300 hover:bg-[#0059B2]">
                             <span>
-                              <ShoppingCartIcon />
+                              <MdShoppingCart />
                             </span>
                             <span className="ml-[8px]">Mua Khóa Học</span>
                           </button>

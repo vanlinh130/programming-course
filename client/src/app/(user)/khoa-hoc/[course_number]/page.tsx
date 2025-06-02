@@ -1,7 +1,8 @@
 "use client"
 
 import React from 'react'
-import { useCourseNumberDetailQuery } from '@/queries/useCourses';
+import { useCourseByNumberQuery } from '@/queries/useCourses';
+import CourseDetail from './course-detail';
 
 type Props = {
   params: Promise<{ course_number: string }>,
@@ -9,15 +10,12 @@ type Props = {
 
 const ShowKhoaHocPage = (props: Props) => {
   const params = React.use(props.params);
-  const { data, isLoading } = useCourseNumberDetailQuery(params.course_number);
-  console.log('ss',data);
-  
-  if (isLoading) return <div className='text-red-600'>Loading...</div>;
+  const { data, isLoading } = useCourseByNumberQuery(params.course_number);
 
   return (
-    <div>
-      ShowKhoaHocPage: {data?.title}
-    </div>
+    <>
+      <CourseDetail data={data} isLoading={isLoading}/>
+    </>
   );
 }
 

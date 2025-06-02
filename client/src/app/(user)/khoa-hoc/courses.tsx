@@ -74,7 +74,7 @@ const KhoaHoc = () => {
             </div>
           ))}
           <hr className="my-[15px] border-[#E7EBF0] border-solid dark:border-[#ffffff1f]" />
-          <Button label="Gợi Ý Khóa Học" />
+          <Button icon={false} label="Gợi Ý Khóa Học" />
         </div>
       </div>
       <div className="col-span-1 lg:col-span-3">
