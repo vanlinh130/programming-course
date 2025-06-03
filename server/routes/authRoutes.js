@@ -1,8 +1,8 @@
 const express = require("express");
-const { googleLogin, googleLogout } = require("../controllers/authController");
+const { googleLogout, facebookLogin } = require("../controllers/authController");
 
 const router = express.Router();
-router.post("/google-login", googleLogin);
+router.post('/facebook-login', facebookLogin);
 router.post('/logout', googleLogout);
 
 module.exports = router;

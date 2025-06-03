@@ -91,7 +91,7 @@ const KhoaHoc = () => {
                 <div
                   key={category.id}
                   ref={ref}
-                  className="scroll-mt-[100px]"
+                  className="scroll-mt-[68px]"
                 >
                   <div className="mb-[50px]">
                     <ButtonQuestion

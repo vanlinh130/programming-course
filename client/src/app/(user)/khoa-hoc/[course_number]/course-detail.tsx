@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import CommonConstants from "@/constants/common";
 import { FaAngleRight } from "react-icons/fa6";
@@ -17,19 +17,40 @@ import { MdSmartphone } from "react-icons/md";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { Accordion } from "./accordion";
 import { CourseType } from "@/schemaValidations/courses.schema";
+import { useUserFacebookIdQuery } from "@/queries/useUser";
+import { useRouter } from "next/navigation";
 
 type Props = {
   data?: CourseType | null;
   isLoading: boolean;
 };
 
-const CourseDetail = ({ isLoading , data}: Props) => {
-  // const { data, isLoading, error } = useCourseByNumberQuery(courseNumber);
+interface User {
+  name: string;
+  facebook_id: string;
+}
 
-  console.log(data);
+const CourseDetail = ({ isLoading, data }: Props) => {
+  const [user, setUser] = useState<User | null>(null);
+  console.log(data, "data");
+  const router = useRouter();
+
+  const { data: userFacebook } = useUserFacebookIdQuery(
+    user?.facebook_id ?? ""
+  );
+
+  const isCourseApprovedForUser = userFacebook?.courses.some(
+    (course) => course.course_id === data?.id && course.is_approved == true
+  );
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   if (isLoading) return <p>Đang tải dữ liệu...</p>;
-  // if (error) return <p>Lỗi: {error.message}</p>;
 
   const features: string[] = [
     "Làm Chủ React Toàn Diện Với Typescript",
@@ -42,21 +63,6 @@ const CourseDetail = ({ isLoading , data}: Props) => {
     "Sử dụng Server Actions với Next.js 14",
   ];
 
-  const user = {
-    id: "1234567890123456",
-    courses: [
-      {
-        course_number: "COURSE0001",
-        is_approved: false,
-        granted_at: "2025-05-29T00:17:13.605462",
-      },
-      {
-        course_number: "COURSE0002",
-        is_approved: false,
-        granted_at: "2025-05-29T01:09:46.364593",
-      },
-    ],
-  };
   const courseChapters = [
     {
       id: 0,
@@ -97,6 +103,15 @@ const CourseDetail = ({ isLoading , data}: Props) => {
       lessons: [],
     },
   ];
+
+  const linkToDetail = (course_number: string | number) => {
+    router.push(
+      CommonConstants.LEARN_LECTURE_PATH.replace(
+        ":course_number",
+        String(course_number)
+      )
+    );
+  };
 
   return (
     <section className="mb-[50px]">
@@ -228,17 +243,16 @@ const CourseDetail = ({ isLoading , data}: Props) => {
                     </span>
                   </div>
                   <div>
-                    {user.id &&
-                    user.courses?.some(
-                      (course) =>
-                        course.course_number === data?.course_number &&
-                        course.is_approved
-                    ) ? (
-                      <Button
-                        icon={true}
-                        label="Học Ngay"
-                        className="w-full rounded-none my-[15px]"
-                      />
+                    {isCourseApprovedForUser ? (
+                      data?.course_number && (
+                        <div onClick={() => linkToDetail(data?.course_number)}>
+                          <Button
+                            icon={false}
+                            label="Bạn đã mua khóa học"
+                            className="w-full rounded-none my-[15px]"
+                          />
+                        </div>
+                      )
                     ) : (
                       <Button
                         icon={true}
@@ -354,7 +368,10 @@ const CourseDetail = ({ isLoading , data}: Props) => {
                           {chapter.lessons.length > 0 ? (
                             <ul className="space-y-1 text-[#1A2027] font-normal text-[16px] list-none">
                               {chapter.lessons.map((lesson) => (
-                                <li key={lesson.id} className="flex items-center gap-2">
+                                <li
+                                  key={lesson.id}
+                                  className="flex items-center gap-2"
+                                >
                                   <MdOutlineOndemandVideo />
                                   <span>{lesson.title}</span>
                                 </li>
@@ -374,7 +391,9 @@ const CourseDetail = ({ isLoading , data}: Props) => {
             </div>
             <hr className="mt-[20px] mb-[10px] border-[#E7EBF0] border-dashed dark:border-[#dfdfdf] dark:border-t-[#c2e0ff14]" />
             <div>
-              <h3 className="text-[20px] my-[18px] font-bold leading-[1.2] text-[#1A2027] dark:text-[#fff]">Mô Tả</h3>
+              <h3 className="text-[20px] my-[18px] font-bold leading-[1.2] text-[#1A2027] dark:text-[#fff]">
+                Mô Tả
+              </h3>
             </div>
             <div>
               <div className="h-[5px] border-t-[1px] border-dashed border-t-[#dfdfdf] dark:border-t-[#c2e0ff14]"></div>
@@ -416,15 +435,10 @@ const CourseDetail = ({ isLoading , data}: Props) => {
                     </span>
                   </div>
                   <div>
-                    {user.id &&
-                    user.courses?.some(
-                      (course) =>
-                        course.course_number === data?.course_number &&
-                        course.is_approved
-                    ) ? (
+                    {isCourseApprovedForUser ? (
                       <Button
-                        icon={true}
-                        label="Học Ngay"
+                        icon={false}
+                        label="Bạn đã mua khóa học"
                         className="w-full rounded-none my-[15px]"
                       />
                     ) : (

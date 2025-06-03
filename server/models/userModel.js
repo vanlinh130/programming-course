@@ -1,17 +1,47 @@
 const pool = require('../config/db');
 
-// Get user by google_id
-const findUserByGoogleIdDetail = async (googleId) => {
-  const res = await pool.query('SELECT * FROM users WHERE google_id = $1', [googleId]);
-  return res.rows[0];
-};
 
 // Create a new user
-const createUser = async (user) => {
-  const { google_id, email, name, picture, role = 'user' } = user;
+const findOrCreateUser = async ({ id, name, email, picture, role = 'user' }) => {
+  const client = await pool.connect();
+  try {
+    const check = await client.query(
+      'SELECT * FROM users WHERE facebook_id = $1',
+      [id]
+    );
+
+    if (check.rows.length > 0) return check.rows[0];
+
+    const result = await client.query(
+      `INSERT INTO users (facebook_id, name, email, picture, role) 
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [id, name, email, picture, role]
+    );
+
+    return result.rows[0];
+  } finally {
+    client.release();
+  }
+};
+
+const findUserByFacebookIdDetail = async (facebookId) => {
   const res = await pool.query(
-    'INSERT INTO users (google_id, email, name, picture, role) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [google_id, email, name, picture, role]
+    `
+    SELECT 
+      u.*,
+      COALESCE(json_agg(
+        json_build_object(
+          'course_id', uc.course_id,
+          'is_approved', uc.is_approved,
+          'granted_at', uc.granted_at
+        )
+      ) FILTER (WHERE uc.course_id IS NOT NULL), '[]') AS courses
+    FROM users u
+    LEFT JOIN user_courses uc ON uc.user_id = u.id
+    WHERE u.facebook_id = $1
+    GROUP BY u.id
+    `,
+    [facebookId]
   );
   return res.rows[0];
 };
@@ -37,8 +67,8 @@ const getAllUsers = async () => {
 };
 
 
-// Update user by google_id
-const updateUserByGoogleId = async (googleId, user) => {
+// Update user by facebook_id
+const updateUserByFacebookId = async (facebookId, user) => {
   const fields = [];
   const values = [];
   let index = 1;
@@ -53,33 +83,33 @@ const updateUserByGoogleId = async (googleId, user) => {
 
   if (fields.length === 0) return null; // No fields to update
 
-  const query = `UPDATE users SET ${fields.join(', ')} WHERE google_id = $${index} RETURNING *`;
-  values.push(googleId);
+  const query = `UPDATE users SET ${fields.join(', ')} WHERE facebook_id = $${index} RETURNING *`;
+  values.push(facebookId);
 
   const res = await pool.query(query, values);
   return res.rows[0];
 };
 
-// Delete user by google_id
-const deleteUserByGoogleId = async (googleId) => {
-  const res = await pool.query('DELETE FROM users WHERE google_id = $1 RETURNING *', [googleId]);
+// Delete user by facebook_id
+const deleteUserByFacebookId = async (facebookId) => {
+  const res = await pool.query('DELETE FROM users WHERE facebook_id = $1 RETURNING *', [facebookId]);
   return res.rows[0];
 };
 
-// Update user role by googleId
-const updateUserRoleByGoogleId = async (googleId, role) => {
+// Update user role by facebookId
+const updateUserRoleByFacebook = async (facebookId, role) => {
   const result = await pool.query(
-    'UPDATE users SET role = $1 WHERE google_id = $2 RETURNING *',
-    [role, googleId]
+    'UPDATE users SET role = $1 WHERE facebook_id = $2 RETURNING *',
+    [role, facebookId]
   );
   return result;
 };
 
 module.exports = {
-  createUser,
+  findOrCreateUser,
   getAllUsers,
-  findUserByGoogleIdDetail,
-  updateUserByGoogleId,
-  deleteUserByGoogleId,
-  updateUserRoleByGoogleId
+  findUserByFacebookIdDetail,
+  updateUserByFacebookId,
+  deleteUserByFacebookId,
+  updateUserRoleByFacebook,
 };

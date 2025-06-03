@@ -1,16 +1,16 @@
 const {
   getAllUsers,
-  updateUserByGoogleId,
-  deleteUserByGoogleId,
-  findUserByGoogleIdDetail,
-  updateUserRoleByGoogleId,
+  updateUserByFacebookId,
+  findUserByFacebookIdDetail,
+  updateUserRoleByFacebook,
+  deleteUserByFacebookId,
 } = require("../models/userModel");
 
-// GET user by google_id
-const getUserByGoogleId = async (req, res) => {
-  const { google_id } = req.params;
+// GET user by facebook_id
+const getUserByFacebookId = async (req, res) => {
+  const { facebook_id } = req.params;
   try {
-    const user = await findUserByGoogleIdDetail(google_id);
+    const user = await findUserByFacebookIdDetail(facebook_id);
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (err) {
@@ -30,12 +30,12 @@ const getUsers = async (req, res) => {
   }
 };
 
-// PUT user by google_id
-const updateUserByGoogle = async (req, res) => {
-  const { google_id } = req.params;
+// PUT user by facebook_id
+const updateUserFacebook = async (req, res) => {
+  const { facebook_id } = req.params;
   const { email, name, picture } = req.body;
   try {
-    const updated = await updateUserByGoogleId(google_id, {
+    const updated = await updateUserByFacebookId(facebook_id, {
       email,
       name,
       picture,
@@ -49,11 +49,11 @@ const updateUserByGoogle = async (req, res) => {
   }
 };
 
-// DELETE user by google_id
-const deleteUserByGoogle = async (req, res) => {
-  const { google_id } = req.params;
+// DELETE user by facebook_id
+const deleteUserByFacebook = async (req, res) => {
+  const { facebook_id } = req.params;
   try {
-    const deleted = await deleteUserByGoogleId(google_id);
+    const deleted = await deleteUserByFacebookId(facebook_id);
     if (!deleted) return res.status(404).json({ message: "User not found" });
     res.json({ message: "User deleted successfully" });
   } catch (err) {
@@ -65,7 +65,7 @@ const deleteUserByGoogle = async (req, res) => {
 
 // update user role
 const updateUserRole = async (req, res) => {
-  const googleId = req.params.google_id;
+  const facebookId = req.params.facebook_id;
   const { role } = req.body;
 
   const allowedRoles = ["user", "seo", "admin"];
@@ -74,7 +74,7 @@ const updateUserRole = async (req, res) => {
   }
 
   try {
-    const result = await updateUserRoleByGoogleId(googleId, role);
+    const result = await updateUserRoleByFacebook(facebookId, role);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -87,9 +87,9 @@ const updateUserRole = async (req, res) => {
 };
 
 module.exports = {
-  getUserByGoogleId,
+  getUserByFacebookId,
   getUsers,
-  updateUserByGoogle,
-  deleteUserByGoogle,
+  updateUserFacebook,
+  deleteUserByFacebook,
   updateUserRole,
 };

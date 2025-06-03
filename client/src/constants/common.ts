@@ -14,13 +14,14 @@ const CommonConstants = {
   ADMIN_PATH: '/admin',
 
   // API Paths
-  API_APP_LOGIN_PATH: "/api/auth/google-login",
+  API_APP_FACEBOOK_PATH: "/api/auth/facebook-login",
   API_APP_LOGOUT_PATH: "/api/auth/logout",
   API_USERS_PATH: "/api/users",
-  API_USERS_GOOGLE_ID_PATH: "/api/users/:google_id",
-  API_UPDATE_USERS_PATH: "/api/users/:google_id",
-  API_DELETE_USERS_PATH: "/api/users/:google_id",
-  API_PATCH_USERS_ROLE_PATH: "/api/users/:google_id/role",
+  API_USERS_FACEBOOK_ID_PATH: "/api/users/:facebook_id",
+  API_UPDATE_USERS_PATH: "/api/users/:facebook_id",
+  API_DELETE_USERS_PATH: "/api/users/:facebook_id",
+  API_PATCH_USERS_ROLE_PATH: "/api/users/:facebook_id/role",
+
 
   API_CATEGORIES_PATH: "/api/categories",
   API_CREATE_CATEGORIES_PATH: "/api/categories",

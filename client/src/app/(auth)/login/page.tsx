@@ -1,4 +1,4 @@
-import LoginForm from './login-form';
+import LoginFacebook from './login-facebook';
 
 const Login = () => {
   return (
@@ -7,7 +7,7 @@ const Login = () => {
         <h1 className="text-[27px] md:text-3xl font-bold text-gray-800 mb-8 md:leading-12">
           Đăng Nhập Khóa Học Công Nghệ Thông Tin Cùng Dev Linh
         </h1>
-        <LoginForm />
+        <LoginFacebook />
       </div>
       <div className="w-[60%] bg-[#1e1e1e] relative overflow-hidden hidden md:flex">
         <div className="absolute inset-0 bg-dot-pattern opacity-40"></div>

@@ -1,17 +1,17 @@
 const express = require("express");
 const {
   getUsers,
-  updateUserByGoogle,
-  deleteUserByGoogle,
-  getUserByGoogleId,
+  updateUserFacebook,
+  getUserByFacebookId,
   updateUserRole,
+  deleteUserByFacebook,
 } = require("../controllers/userController");
 
 const router = express.Router();
-router.get("/:google_id", getUserByGoogleId);
+router.get("/:facebook_id", getUserByFacebookId);
 router.get("/", getUsers);
-router.put("/:google_id", updateUserByGoogle);
-router.delete("/:google_id", deleteUserByGoogle);
-router.patch("/:google_id/role", updateUserRole);
+router.put("/:facebook_id", updateUserFacebook);
+router.delete("/:facebook_id", deleteUserByFacebook);
+router.put("/:facebook_id/role", updateUserRole);
 
 module.exports = router;
