@@ -1,9 +1,9 @@
 const pool = require("../config/db");
 
-const createLesson = async ({ title, video_url, status, chapter_id }) => {
+const createLesson = async ({ title, video_url, status, chapter_id, duration_minutes, duration_hours }) => {
   const res = await pool.query(
-    "INSERT INTO lessons (title, video_url, status, chapter_id, duration_minutes, duration_hours ) VALUES ($1, $2, $3, $4) RETURNING *",
-    [title, video_url, status, chapter_id]
+    "INSERT INTO lessons (title, video_url, status, chapter_id, duration_minutes, duration_hours ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+    [title, video_url, status, chapter_id, duration_minutes, duration_hours]
   );
   return res.rows[0];
 };
