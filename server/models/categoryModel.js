@@ -17,10 +17,10 @@ const getAllCategories = async () => {
     const courseRes = await pool.query('SELECT * FROM courses WHERE category_id = $1', [category.id]);
     const courses = courseRes.rows;
 
-    // Lấy lessons theo từng course
+    // Lấy chapters theo từng course
     for (const course of courses) {
-      const lessonRes = await pool.query('SELECT * FROM lessons WHERE course_id = $1', [course.id]);
-      course.lessons = lessonRes.rows;
+      const chapterRes = await pool.query('SELECT * FROM chapters WHERE course_id = $1', [course.id]);
+      course.chapters = chapterRes.rows;
     }
 
     category.courses = courses;
@@ -40,8 +40,8 @@ const getCategoryByValue = async (value) => {
 
   // For each course, get lessons
   for (let course of courses) {
-    const lessonRes = await pool.query('SELECT * FROM lessons WHERE course_id = $1', [course.id]);
-    course.lessons = lessonRes.rows;
+    const chapterRes = await pool.query('SELECT * FROM chapters WHERE course_id = $1', [course.id]);
+    course.chapters = chapterRes.rows;
   }
 
   category.courses = courses;

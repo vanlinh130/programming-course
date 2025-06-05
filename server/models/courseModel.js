@@ -36,8 +36,8 @@ const getCourseById = async (id) => {
   const course = courseResult.rows[0];
   if (!course) return null;
 
-  const lessonResult = await pool.query('SELECT * FROM lessons WHERE course_id = $1', [id]);
-  course.lessons = lessonResult.rows;
+  const chapterResult = await pool.query('SELECT * FROM chapters WHERE course_id = $1', [id]);
+  course.chapters = chapterResult.rows;
 
   return course;
 };
@@ -47,8 +47,18 @@ const getCourseByNumber = async (course_number) => {
   const course = courseResult.rows[0];
   if (!course) return null;
 
-  const lessonResult = await pool.query('SELECT * FROM lessons WHERE course_id = $1', [course.id]);
-  course.lessons = lessonResult.rows;
+  const chapterResult = await pool.query('SELECT * FROM chapters WHERE course_id = $1 ORDER BY id ASC', [course.id]);
+  const chapters = chapterResult.rows;
+
+  for (let chapter of chapters) {
+    const lessonResult = await pool.query(
+      'SELECT * FROM lessons WHERE chapter_id = $1 ORDER BY id ASC',
+      [chapter.id]
+    );
+    chapter.lessons = lessonResult.rows;
+  }
+
+  course.chapters = chapters;
 
   return course;
 };

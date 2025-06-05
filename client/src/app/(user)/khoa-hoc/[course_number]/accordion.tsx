@@ -30,7 +30,7 @@ export const Accordion = ({ title, children, count }: AccordionProps) => {
             </motion.div>
             <span>{title}</span>
           </div>
-          <span className='hidden md:block lg:block'>{count} bài giảng</span>
+          <span className='hidden md:block lg:block w-[80px]'>{count} bài giảng</span>
         </button>
       </div>
 

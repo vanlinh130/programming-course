@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+const LessonSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  video_url: z.string(),
+  status: z.string(),
+  chapter_id: z.number(),
+});
+
+const ChapterSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  course_id: z.number(),
+  lessons: z.array(LessonSchema),
+});
+
 export const CourseSchema = z.object({
   id: z.union([z.string(), z.number()]),
   label: z.string(),
@@ -13,7 +28,7 @@ export const CourseSchema = z.object({
   price: z.number(),
   original_price: z.number(),
   course_number: z.string(),
-  lessons:z.array(z.any()),
+  chapters:z.array(ChapterSchema),
 });
 
 export const CoursesResponseSchema = z.array(CourseSchema);

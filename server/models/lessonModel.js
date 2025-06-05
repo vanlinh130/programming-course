@@ -1,22 +1,20 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
 
-const createLesson = async ({ title, video_url, status, course_id }) => {
-  const result = await pool.query(
-    `INSERT INTO lessons (title, video_url, status, course_id)
-     VALUES ($1, $2, $3, $4)
-     RETURNING *`,
-    [title, video_url, status || 'not_started', course_id]
+const createLesson = async ({ title, video_url, status, chapter_id }) => {
+  const res = await pool.query(
+    "INSERT INTO lessons (title, video_url, status, chapter_id, duration_minutes, duration_hours ) VALUES ($1, $2, $3, $4) RETURNING *",
+    [title, video_url, status, chapter_id]
   );
-  return result.rows[0];
+  return res.rows[0];
 };
 
 const getAllLessons = async () => {
-  const result = await pool.query('SELECT * FROM lessons');
+  const result = await pool.query("SELECT * FROM lessons");
   return result.rows;
 };
 
 const getLessonById = async (id) => {
-  const result = await pool.query('SELECT * FROM lessons WHERE id = $1', [id]);
+  const result = await pool.query("SELECT * FROM lessons WHERE id = $1", [id]);
   return result.rows[0];
 };
 
@@ -24,7 +22,9 @@ const updateLesson = async (id, fields) => {
   const keys = Object.keys(fields);
   if (keys.length === 0) return null;
 
-  const setQuery = keys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+  const setQuery = keys
+    .map((key, index) => `${key} = $${index + 1}`)
+    .join(", ");
   const values = Object.values(fields);
 
   const query = `
@@ -38,7 +38,10 @@ const updateLesson = async (id, fields) => {
 };
 
 const deleteLesson = async (id) => {
-  const result = await pool.query('DELETE FROM lessons WHERE id = $1 RETURNING *', [id]);
+  const result = await pool.query(
+    "DELETE FROM lessons WHERE id = $1 RETURNING *",
+    [id]
+  );
   return result.rows[0];
 };
 
@@ -47,5 +50,5 @@ module.exports = {
   getAllLessons,
   getLessonById,
   updateLesson,
-  deleteLesson
+  deleteLesson,
 };

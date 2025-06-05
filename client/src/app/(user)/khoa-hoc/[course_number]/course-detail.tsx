@@ -31,10 +31,9 @@ interface User {
 }
 
 const CourseDetail = ({ isLoading, data }: Props) => {
-  const [user, setUser] = useState<User | null>(null);
-  console.log(data, "data");
   const router = useRouter();
-
+  
+  const [user, setUser] = useState<User | null>(null);
   const { data: userFacebook } = useUserFacebookIdQuery(
     user?.facebook_id ?? ""
   );
@@ -42,6 +41,8 @@ const CourseDetail = ({ isLoading, data }: Props) => {
   const isCourseApprovedForUser = userFacebook?.courses.some(
     (course) => course.course_id === data?.id && course.is_approved == true
   );
+
+  const allLessons = data?.chapters?.flatMap(chapter => chapter.lessons);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -61,47 +62,6 @@ const CourseDetail = ({ isLoading, data }: Props) => {
     "Thực hành NextJS kết hợp với tailwind",
     "Build và Upgrade version Nextjs 14",
     "Sử dụng Server Actions với Next.js 14",
-  ];
-
-  const courseChapters = [
-    {
-      id: 0,
-      title: "Chapter 0: Giới thiệu",
-      lessons: [
-        { id: 1, title: "#0. Demo Kết quả đạt được" },
-        { id: 2, title: "#1. Hướng Dẫn Download Tài liệu khóa học" },
-        { id: 3, title: "#2. Yêu cầu của khóa học" },
-        { id: 4, title: "#3. Về khóa học này" },
-        { id: 5, title: "#4.1 Hướng Dẫn Sử Dụng Khóa Học Hiệu Quả" },
-        { id: 6, title: "#4.2 Về tác giả" },
-      ],
-    },
-    {
-      id: 1,
-      title: "Chapter 1: Setup Environment",
-      lessons: [
-        { id: 7, title: "Lesson 1" },
-        { id: 8, title: "Lesson 2" },
-        { id: 9, title: "Lesson 3" },
-        { id: 10, title: "Lesson 4" },
-      ],
-    },
-    {
-      id: 2,
-      title: "Chapter 2: Ôn tập Javascript",
-      lessons: [
-        { id: 11, title: "Lesson 1" },
-        { id: 12, title: "Lesson 2" },
-        { id: 13, title: "Lesson 3" },
-        { id: 14, title: "Lesson 4" },
-        { id: 15, title: "Lesson 5" },
-      ],
-    },
-    {
-      id: 3,
-      title: "Chapter 3: React Basic",
-      lessons: [],
-    },
   ];
 
   const linkToDetail = (course_number: string | number) => {
@@ -281,7 +241,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                       <RiVideoAiFill />
 
                       <span className="text-[#1A2027] text-[16px] font-normal dark:text-[#fff]">
-                        {data?.lessons.length} videos hướng dẫn
+                        {data?.chapters.length} videos hướng dẫn
                       </span>
                     </li>
                     <li className="flex list-none items-center justify-items-center gap-[15px]">
@@ -353,13 +313,13 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                 <div>
                   <div className="flex flex-row mb-[15px] justify-between">
                     <div className="text-[#1A2027] font-normal text-[16px] dark:text-[#fff]">
-                      24 chương • 227 bài giảng • 42 giờ tổng thời lượng
+                      {data?.chapters.length} chương • {allLessons?.length} bài giảng • 42 giờ tổng thời lượng
                     </div>
                     <div></div>
                   </div>
                   <div className="">
                     <div className="w-full">
-                      {courseChapters.map((chapter) => (
+                      {data?.chapters.map((chapter) => (
                         <Accordion
                           key={chapter.id}
                           title={chapter.title}
@@ -370,9 +330,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                               {chapter.lessons.map((lesson) => (
                                 <li
                                   key={lesson.id}
-                                  className="flex items-center gap-2"
                                 >
-                                  <MdOutlineOndemandVideo />
                                   <span>{lesson.title}</span>
                                 </li>
                               ))}
@@ -469,7 +427,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                       <RiVideoAiFill />
 
                       <span className="text-[#1A2027] text-[16px] font-normal dark:text-[#fff]">
-                        {data?.lessons.length} videos hướng dẫn
+                        {data?.chapters.length} videos hướng dẫn
                       </span>
                     </li>
                     <li className="flex list-none items-center justify-items-center gap-[15px]">
