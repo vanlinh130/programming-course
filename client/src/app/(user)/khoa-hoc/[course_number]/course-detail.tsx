@@ -7,18 +7,17 @@ import { FaAngleRight } from "react-icons/fa6";
 import { GoStarFill } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import ButtonQuestion from "../../components/buttonQuestion";
-import Image from "next/image";
 import Button from "@/components/ui/button";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { RiVideoAiFill } from "react-icons/ri";
 import { FaFileAlt } from "react-icons/fa";
 import { GoInfinity } from "react-icons/go";
 import { MdSmartphone } from "react-icons/md";
-import { IoPlayCircleOutline } from "react-icons/io5";
 import { Accordion } from "./accordion";
 import { CourseType } from "@/schemaValidations/courses.schema";
 import { useUserFacebookIdQuery } from "@/queries/useUser";
 import { useRouter } from "next/navigation";
+import ConfirmDialog from "./confirm-dialog";
 
 type Props = {
   data?: CourseType | null;
@@ -43,6 +42,8 @@ const CourseDetail = ({ isLoading, data }: Props) => {
   );
 
   const allLessons = data?.chapters?.flatMap(chapter => chapter.lessons);
+  const totalMinutes = allLessons?.reduce((sum, lesson) => sum + lesson.duration_minutes, 0);
+  const totalHoursRounded = Math.round((totalMinutes ?? 0) / 60);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -53,17 +54,6 @@ const CourseDetail = ({ isLoading, data }: Props) => {
 
   if (isLoading) return <p>Đang tải dữ liệu...</p>;
 
-  const features: string[] = [
-    "Làm Chủ React Toàn Diện Với Typescript",
-    "Xây dựng giao diện Admin React với Antd Design/Vite",
-    "Hiểu rõ cơ chế render React ở Client và Server",
-    "Rèn luyện tư duy phân tích, tích hợp thư viện javascript với React",
-    "Nắm vững kiến thức cốt lõi của NextJS và React",
-    "Thực hành NextJS kết hợp với tailwind",
-    "Build và Upgrade version Nextjs 14",
-    "Sử dụng Server Actions với Next.js 14",
-  ];
-
   const linkToDetail = (course_number: string | number) => {
     router.push(
       CommonConstants.LEARN_LECTURE_PATH.replace(
@@ -72,6 +62,8 @@ const CourseDetail = ({ isLoading, data }: Props) => {
       )
     );
   };
+
+
 
   return (
     <section className="mb-[50px]">
@@ -126,7 +118,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                       className="text-[13px] dark:!bg-[#001E3C] dark:!text-[#E7EBF0]"
                     />
                     <ButtonQuestion
-                      text={`Tác giả: Van Linh`}
+                      text={`Tác giả: ${data?.author}`}
                       className="text-[13px] dark:!bg-[#001E3C] dark:!text-[#E7EBF0]"
                     />
                   </div>
@@ -135,28 +127,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
             </div>
             <div className="col-span-1 block md:block lg:hidden">
               <div className="border-b-[1px] border-solid border-b-[#d1d7dc] dark:border-none bg-[#fff] dark:bg-[#0a1929] relative shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.08)] ">
-                <div className="relative h-[200px] w-full cursor-pointer">
-                  <Image
-                    src={data?.image_url || " "}
-                    alt="html"
-                    fill
-                    className="object-cover opacity-[0.7]"
-                  />
-                  <div
-                    className="relative flex items-center justify-center flex-col h-full "
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(28, 29, 31, 0) 0%, rgba(28, 29, 31, 0.9) 100%)",
-                    }}
-                  >
-                    <IoPlayCircleOutline className="text-[#DEA500] text-[24px] w-[64px] h-[64px]" />
-                  </div>
-                  <span className="relative flex justify-center top-[-40px]">
-                    <button className="flex items-center justify-center min-w-[64px] text-[#fff] text-[14px] font-bold py-[6px] px-2 rounded-[10px] shadow-none cursor-pointer bg-transparent hover:bg-[#007fff0a]">
-                      Xem trước khóa học này
-                    </button>
-                  </span>
-                </div>
+                <ConfirmDialog courses={data ?? null}/>
                 <div className="p-[15px] border-[1px] dark:border-[#ffffff1f]">
                   <div className="flex flex-col gap-2.5">
                     <div className="mt-2.5 text-[17px] font-semibold text-[#1A2027] dark:text-[#fff]">
@@ -234,7 +205,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                       <MdOutlineOndemandVideo />
 
                       <span className="text-[#1A2027] text-[16px] font-normal dark:text-[#fff]">
-                        30 giờ video theo yêu cầu
+                        {totalHoursRounded} giờ video theo yêu cầu
                       </span>
                     </li>
                     <li className="flex list-none items-center justify-items-center gap-[15px]">
@@ -280,12 +251,12 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                 Những gì bạn sẽ học
               </div>
               <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2.5 my-4 text-[16px] text-[#1A2027] leading-[1.2] font-normal dark:text-[#fff] px-2.5">
-                {features.map((feature, index) => (
+                {data?.chapters.map((chapter, index) => (
                   <li key={index} className="col-span-1 flex gap-2">
                     <div className="w-[15px]">
                       <IoCheckmark className="text-[15px]" />
                     </div>
-                    <span>{feature}</span>
+                    <span>{chapter.title.replace(/^.*?:\s*/, '')}</span>
                   </li>
                 ))}
               </ul>
@@ -298,7 +269,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
               </div>
               <div className="relative w-full pb-[56.25%] border-[1px] border-solid border-[#E7EBF0] bg-[#fff]">
                 <iframe
-                  src="https://www.youtube.com/embed/b7W21_Zk_JQ"
+                  src={`https://www.youtube.com/embed/${data?.video_url}`}
                   title="YouTube video player"
                   className="absolute top-0 left-0 w-full h-full shadow-[0_2px_10px_0_rgba(0,0,0,0.1)]"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -313,7 +284,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                 <div>
                   <div className="flex flex-row mb-[15px] justify-between">
                     <div className="text-[#1A2027] font-normal text-[16px] dark:text-[#fff]">
-                      {data?.chapters.length} chương • {allLessons?.length} bài giảng • 42 giờ tổng thời lượng
+                      {data?.chapters.length} chương • {allLessons?.length} bài giảng • {totalHoursRounded} giờ tổng thời lượng
                     </div>
                     <div></div>
                   </div>
@@ -326,18 +297,21 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                           count={chapter.lessons.length}
                         >
                           {chapter.lessons.length > 0 ? (
-                            <ul className="space-y-1 text-[#1A2027] font-normal text-[16px] list-none">
-                              {chapter.lessons.map((lesson) => (
-                                <li
-                                  key={lesson.id}
-                                >
-                                  <span>{lesson.title}</span>
-                                </li>
-                              ))}
-                            </ul>
+                            <div className="px-4 py-2">
+                              
+                              <ul className="space-y-1 text-[#1A2027] font-normal text-[16px] list-none">
+                                {chapter.lessons.map((lesson) => (
+                                  <li
+                                    key={lesson.id}
+                                  >
+                                    <span>{lesson.title}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           ) : (
-                            <span className="text-[#1A2027] font-normal text-[16px] ">
-                              Chưa có bài học nào.
+                            <span className="text-[#1A2027] font-normal text-[16px] ml-8">
+                              Đang cập nhật bài mới 
                             </span>
                           )}
                         </Accordion>
@@ -363,28 +337,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
           <div className="col-span-1 hidden md:hidden lg:block">
             <div className="sticky top-[255px]">
               <div className="border-b-[1px] border-solid border-b-[#d1d7dc] dark:border-none bg-[#fff] dark:bg-[#0a1929] relative top-[-200px] shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.08)]">
-                <div className="relative h-[200px] w-full cursor-pointer">
-                  <Image
-                    src={data?.image_url || " "}
-                    alt="html"
-                    fill
-                    className="object-cover opacity-[0.7]"
-                  />
-                  <div
-                    className="relative flex items-center justify-center flex-col h-full "
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(28, 29, 31, 0) 0%, rgba(28, 29, 31, 0.9) 100%)",
-                    }}
-                  >
-                    <IoPlayCircleOutline className="text-[#DEA500] text-[24px] w-[64px] h-[64px]" />
-                  </div>
-                  <span className="relative flex justify-center top-[-40px]">
-                    <button className="flex items-center justify-center min-w-[64px] text-[#fff] text-[14px] font-bold py-[6px] px-2 rounded-[10px] shadow-none cursor-pointer bg-transparent hover:bg-[#007fff0a]">
-                      Xem trước khóa học này
-                    </button>
-                  </span>
-                </div>
+                <ConfirmDialog courses={data ?? null}/>
                 <div className="p-6 border-[1px] dark:border-[#ffffff1f]">
                   <div>
                     <span className="text-[#cb1c22] text-[25px] leading-[1.2] font-bold">
@@ -420,7 +373,7 @@ const CourseDetail = ({ isLoading, data }: Props) => {
                       <MdOutlineOndemandVideo />
 
                       <span className="text-[#1A2027] text-[16px] font-normal dark:text-[#fff]">
-                        30 giờ video theo yêu cầu
+                        {totalHoursRounded} giờ video theo yêu cầu
                       </span>
                     </li>
                     <li className="flex list-none items-center justify-items-center gap-[15px]">

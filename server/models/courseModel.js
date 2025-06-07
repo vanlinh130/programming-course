@@ -12,15 +12,17 @@ const createCourse = async (course) => {
     tag, 
     short, 
     students, 
-    likes
+    likes,
+    video_url,
+    author,
   } = course;
 
   const result = await pool.query(
     `INSERT INTO courses 
-      (title, description, label, image_url, price, original_price, category_id, tag, short, students, likes ) 
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+      (title, description, label, image_url, price, original_price, category_id, tag, short, students, likes, video_url, author ) 
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
      RETURNING *`,
-    [title, description, label, image_url, price, original_price, category_id, tag, short, students, likes]
+    [title, description, label, image_url, price, original_price, category_id, tag, short, students, likes, video_url, author]
   );
 
   return result.rows[0];

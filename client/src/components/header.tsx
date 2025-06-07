@@ -79,7 +79,7 @@ const Header = () => {
   };
 
   return (
-    <header className="h-[56px] sticky top-0 right-0 left-0 z-[1000] border-b-[1px] border-[#e7ebf0] dark:border-[#132F4C] bg-white/80 dark:bg-[#0A1929] backdrop-blur-[20px]">
+    <header className="h-[56px] sticky top-0 right-0 left-0 z-[10] border-b-[1px] border-[#e7ebf0] dark:border-[#132F4C] bg-white/80 dark:bg-[#0A1929] backdrop-blur-[20px]">
       <div className="max-w-[1200px] px-[20px] md:px-[30px] mx-auto">
         <nav className="flex items-center justify-between">
           <div className="w-[40%] md:w-[75%] flex items-center">

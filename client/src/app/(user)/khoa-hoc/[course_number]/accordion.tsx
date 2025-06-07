@@ -20,7 +20,7 @@ export const Accordion = ({ title, children, count }: AccordionProps) => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full text-left py-3 flex justify-between items-center text-[#000000e0] dark:text-[#fff] text-[16px] font-normal"
         >
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-2 w-[80%]'>
             <motion.div
               animate={{ rotate: isOpen ? 90 : 0 }}
               transition={{ duration: 0.2 }}
@@ -30,18 +30,19 @@ export const Accordion = ({ title, children, count }: AccordionProps) => {
             </motion.div>
             <span>{title}</span>
           </div>
-          <span className='hidden md:block lg:block w-[80px]'>{count} bài giảng</span>
+          <span className='hidden md:block lg:block w-[20%] text-right'>{count} bài giảng</span>
         </button>
       </div>
 
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
+            // key="content"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="px-4 py-2 bg-white"
+            className="bg-white"
           >
             {children}
           </motion.div>

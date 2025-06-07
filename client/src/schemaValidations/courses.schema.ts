@@ -6,6 +6,7 @@ const LessonSchema = z.object({
   video_url: z.string(),
   status: z.string(),
   chapter_id: z.number(),
+  duration_minutes: z.number(),
 });
 
 const ChapterSchema = z.object({
@@ -19,6 +20,7 @@ export const CourseSchema = z.object({
   id: z.union([z.string(), z.number()]),
   label: z.string(),
   image_url: z.string(),
+  video_url: z.string(),
   tag: z.string(),
   title: z.string(),
   description: z.string(),
@@ -28,6 +30,7 @@ export const CourseSchema = z.object({
   price: z.number(),
   original_price: z.number(),
   course_number: z.string(),
+  author: z.string(),
   chapters:z.array(ChapterSchema),
 });
 
